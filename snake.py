@@ -11,6 +11,7 @@ black = (0, 0, 0)
 red = (213, 50, 80)
 green = (0, 255, 0)
 blue = (50, 153, 213)
+background_color = (30, 30, 30)
 
 # Display settings
 dis_width = 800
@@ -28,21 +29,17 @@ clock = pygame.time.Clock()
 font_style = pygame.font.SysFont("bahnschrift", 25)
 score_font = pygame.font.SysFont("comicsansms", 35)
 
-
 def your_score(score):
-    value = score_font.render("Your Score: " + str(score), True, blue)
+    value = score_font.render("Your Score: " + str(score), True, white)
     dis.blit(value, [0, 0])
-
 
 def our_snake(snake_block, snake_list):
     for x in snake_list:
-        pygame.draw.rect(dis, black, [x[0], x[1], snake_block, snake_block])
-
+        pygame.draw.rect(dis, green, [x[0], x[1], snake_block, snake_block])
 
 def message(msg, color):
     mesg = font_style.render(msg, True, color)
     dis.blit(mesg, [dis_width / 6, dis_height / 3])
-
 
 def gameLoop():
     game_over = False
@@ -62,8 +59,8 @@ def gameLoop():
 
     while not game_over:
 
-        while game_close == True:
-            dis.fill(white)
+        while game_close:
+            dis.fill(background_color)
             message("You Lost! Press Q-Quit or C-Play Again", red)
             your_score(Length_of_snake - 1)
             pygame.display.update()
@@ -75,6 +72,9 @@ def gameLoop():
                         game_close = False
                     if event.key == pygame.K_c:
                         gameLoop()
+                if event.type == pygame.QUIT:
+                    game_over = True
+                    game_close = False
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -97,8 +97,8 @@ def gameLoop():
             game_close = True
         x1 += x1_change
         y1 += y1_change
-        dis.fill(white)
-        pygame.draw.rect(dis, green, [foodx, foody, snake_block, snake_block])
+        dis.fill(background_color)
+        pygame.draw.rect(dis, red, [foodx, foody, snake_block, snake_block])
         snake_Head = []
         snake_Head.append(x1)
         snake_Head.append(y1)
@@ -124,6 +124,5 @@ def gameLoop():
 
     pygame.quit()
     quit()
-
 
 gameLoop()
