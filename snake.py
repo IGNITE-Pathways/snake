@@ -20,8 +20,8 @@ dis = pygame.display.set_mode((dis_width, dis_height))
 pygame.display.set_caption('Snake Game')
 
 # Snake settings
-snake_block = 10
-snake_speed = 15
+snake_block = 20
+snake_speed = 10
 
 clock = pygame.time.Clock()
 
@@ -31,11 +31,11 @@ score_font = pygame.font.SysFont("comicsansms", 50)
 
 def your_score(score):
     value = score_font.render("Your Score: " + str(score), True, white)
-    dis.blit(value, [dis_width / 2 - value.get_width() / 2, 0])
+    dis.blit(value, [dis_width / 2 - value.get_width() / 2, 20])
 
-def our_snake(snake_block, snake_list):
+def draw_snake(snake_block, snake_list):
     for x in snake_list:
-        pygame.draw.rect(dis, green, [x[0], x[1], snake_block, snake_block])
+        pygame.draw.circle(dis, green, (x[0] + snake_block // 2, x[1] + snake_block // 2), snake_block // 2)
 
 def message(msg, color):
     mesg = font_style.render(msg, True, color)
@@ -54,8 +54,8 @@ def gameLoop():
     snake_List = []
     Length_of_snake = 1
 
-    foodx = round(random.randrange(0, dis_width - snake_block) / 10.0) * 10.0
-    foody = round(random.randrange(0, dis_height - snake_block) / 10.0) * 10.0
+    foodx = round(random.randrange(0, dis_width - snake_block) / snake_block) * snake_block
+    foody = round(random.randrange(0, dis_height - snake_block) / snake_block) * snake_block
 
     while not game_over:
 
@@ -98,7 +98,7 @@ def gameLoop():
         x1 += x1_change
         y1 += y1_change
         dis.fill(background_color)
-        pygame.draw.rect(dis, red, [foodx, foody, snake_block, snake_block])
+        pygame.draw.circle(dis, red, (foodx + snake_block // 2, foody + snake_block // 2), snake_block // 2)
         snake_Head = []
         snake_Head.append(x1)
         snake_Head.append(y1)
@@ -110,14 +110,14 @@ def gameLoop():
             if x == snake_Head:
                 game_close = True
 
-        our_snake(snake_block, snake_List)
+        draw_snake(snake_block, snake_List)
         your_score(Length_of_snake - 1)
 
         pygame.display.update()
 
         if x1 == foodx and y1 == foody:
-            foodx = round(random.randrange(0, dis_width - snake_block) / 10.0) * 10.0
-            foody = round(random.randrange(0, dis_height - snake_block) / 10.0) * 10.0
+            foodx = round(random.randrange(0, dis_width - snake_block) / snake_block) * snake_block
+            foody = round(random.randrange(0, dis_height - snake_block) / snake_block) * snake_block
             Length_of_snake += 1
 
         clock.tick(snake_speed)
