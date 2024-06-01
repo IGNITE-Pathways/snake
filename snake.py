@@ -61,6 +61,7 @@ def gameLoop():
 
         while game_close:
             dis.fill(background_color)
+            draw_snake(snake_block, snake_List)
             message("You Lost! Press Q to Quit or C to Play Again", red)
             your_score(Length_of_snake - 1)
             pygame.display.update()
